@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,13 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::resource('/', UserController::class);
-Route::post('/auth', [UserController::class, 'auth']);
+// Route::resource('/', UserController::class);
+
+Route::get('/', function() {
+  return redirect('/dashboard');
+});
+
+Route::get('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/dashboard', [DashboardController::class, 'dashboard']);
+Route::post('/auth', [AuthController::class, 'auth']);

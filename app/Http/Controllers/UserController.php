@@ -8,14 +8,6 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-  public function auth(Request $request)
-  {
-    if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-      dd('Logou');
-    } else {
-      dd('Nao logou');
-    }
-  }
   /**
    * Display a listing of the resource.
    *
@@ -23,7 +15,7 @@ class UserController extends Controller
    */
   public function index()
   {
-    return view('index');
+    return view('dashboard');
   }
 
   /**
