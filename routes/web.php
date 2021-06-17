@@ -15,3 +15,4 @@ use App\Http\Controllers\UserController;
 */
 
 Route::resource('/', UserController::class);
+Route::post('/auth', [UserController::class, 'auth']);
