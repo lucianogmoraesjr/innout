@@ -26,4 +26,8 @@ class User extends Authenticatable
     'end_date',
     'is_admin',
   ];
+
+  protected $hidden = [
+    'password'
+];
 }
