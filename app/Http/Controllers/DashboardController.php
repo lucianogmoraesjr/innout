@@ -8,11 +8,13 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function dashboard() {
-      if (Auth::check()){
-        return view('dashboard');
-      }
-
-      return redirect('/login');
+  public function dashboard()
+  {
+    if (Auth::check()) {
+      $user = Auth::user();
+      return view('dashboard', compact('user'));
     }
+
+    return redirect('/login');
+  }
 }
