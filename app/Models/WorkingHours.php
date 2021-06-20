@@ -28,8 +28,22 @@ class WorkingHours extends Model
 
   public $timestamps = false;
 
-  public function relUsers()
+  public static function getWorkingHours($userId)
   {
-    return $this->hasOne('App\Models\User', 'id', 'user_id');
+    $workingHours = WorkingHours::where('user_id', $userId)->where('work_date', date('Y-m-d'))->get()->all();
+
+    foreach ($workingHours as $workingHour) {
+      $workingHours = $workingHour;
+    }
+
+    if (!$workingHours) {
+      $workingHours = new WorkingHours([
+        'user_id' => $userId,
+        'work_date' => date('Y-m-d'),
+        'worked_time' => 0
+      ]);
+    }
+
+    return $workingHours;
   }
 }

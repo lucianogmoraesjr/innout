@@ -9,6 +9,25 @@
         <h2>Mantenha seu ponto consistente!</h2>
       </div>
     </div>
+    @if ($errors->all())
+      @foreach ($errors->all() as $error)
+        <div id="alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ $error }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      @endforeach
+    @endif
+
+    @if (session('status'))
+      <div id="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    @endif
 
     <div class="card">
       <div class="card-header">
@@ -26,12 +45,22 @@
         </div>
       </div>
       <div class="card-footer d-flex justify-content-center">
-        <a href="#" class="btn btn-success btn-lg">
+        <a href="/punch" class="btn btn-success btn-lg">
           <i class="icofont-check me-1"></i>
           Registrar ponto
         </a>
       </div>
     </div>
+
+    <form class="mt-5" action="/punch" method="post">
+      @csrf
+      <div class="input-group no-border">
+        <input name="simulatePunch" type="text" class="form-control" placeholder="Digite o horário para simular o batimento">
+        <button class="btn btn-danger ms-3">
+          Simular ponto
+        </button>
+      </div>
+    </form>
 
   </main>
 
