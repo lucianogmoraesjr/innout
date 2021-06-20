@@ -29,5 +29,9 @@ class User extends Authenticatable
 
   protected $hidden = [
     'password'
-];
+  ];
+
+  public function relWorkingHours() {
+    return $this-> hasMany('App\Models\WorkingHours', 'id_user');
+}
 }

@@ -27,4 +27,9 @@ class WorkingHours extends Model
   ];
 
   public $timestamps = false;
+
+  public function relUsers()
+  {
+    return $this->hasOne('App\Models\User', 'id', 'user_id');
+  }
 }

@@ -48,10 +48,11 @@ class WorkingHoursSeeder extends Seeder
   public function workingHoursGenerate($userId, $initialDate, $regularRate, $extraRate, $lazyRate)
   {
     $currentDate = $initialDate;
-    $today = new DateTime();
+    $previousDay = new DateTime();
+    $previousDay->modify('-1 day');
     $collumns = ['user_id' => $userId, 'work_date' => $currentDate];
 
-    while (isBefore($currentDate, $today)) {
+    while (isBefore($currentDate, $previousDay)) {
       if (!isWeekend($currentDate)) {
         $workedDays = $this->getWorkedDayByOdds($regularRate, $extraRate, $lazyRate);
         $collumns = array_merge($collumns, $workedDays);
