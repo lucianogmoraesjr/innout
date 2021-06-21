@@ -8,10 +8,6 @@ use Illuminate\View\View;
 
 class WorkingHoursComposer
 {
-  public function getWorkingHours()
-  {
-  }
-
   /**
    * Bind data to the view.
    *
@@ -23,12 +19,13 @@ class WorkingHoursComposer
     $user = Auth::user();
     $workingHours = WorkingHours::getCurrentWorkingHours($user->id);
     $workedInterval = $workingHours->getWorkedInterval()->format('%H:%I:%S');
-    $lunchInterval = $workingHours->getLunchInterval()->format('%H:%I:%S');
     $leaveTime = $workingHours->getLeaveTime()->format('H:i:s');
+    $activeClock = $workingHours->getActiveClock();
 
     $view->with([
-      'workedInterval'=> $workedInterval,
-      'leaveTime' => $leaveTime
+      'workedInterval' => $workedInterval,
+      'leaveTime' => $leaveTime,
+      'activeClock' => $activeClock
     ]);
   }
 }

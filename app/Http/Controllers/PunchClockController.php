@@ -14,17 +14,7 @@ class PunchClockController extends Controller
 
     $workingHours = WorkingHours::getCurrentWorkingHours($user->id);
 
-    if (!$workingHours->time1) {
-      $timeColumn = 'time1';
-    } elseif (!$workingHours->time2) {
-      $timeColumn = 'time2';
-    } elseif (!$workingHours->time3) {
-      $timeColumn = 'time3';
-    } elseif (!$workingHours->time4) {
-      $timeColumn = 'time4';
-    } else {
-      $timeColumn = null;
-    }
+    $timeColumn = $workingHours->getNextTime();
 
     if (!$timeColumn) {
       return redirect()->back()->withErrors("Você já realizou os 4 batimentos do dia.");

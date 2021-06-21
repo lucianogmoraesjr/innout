@@ -51,6 +51,40 @@ class WorkingHours extends Model
     return $workingHours;
   }
 
+  private function getTimes()
+  {
+    $times = [];
+
+    $this->time1 ? array_push($times, getDateFromString($this->time1)) : array_push($times, null);
+    $this->time2 ? array_push($times, getDateFromString($this->time2)) : array_push($times, null);
+    $this->time3 ? array_push($times, getDateFromString($this->time3)) : array_push($times, null);
+    $this->time4 ? array_push($times, getDateFromString($this->time4)) : array_push($times, null);
+
+    return $times;
+  }
+
+  public function getNextTime()
+  {
+    if (!$this->time1) return 'time1';
+    if (!$this->time2) return 'time2';
+    if (!$this->time3) return 'time3';
+    if (!$this->time4) return 'time4';
+    return null;
+  }
+
+  public function getActiveClock()
+  {
+    $nextTime = $this->getNextTime();
+
+    if ($nextTime === 'time1' || $nextTime === 'time3') {
+      return 'leaveTime';
+    } elseif ($nextTime === 'time2' || $nextTime === 'time4') {
+      return 'workedHours';
+    } else {
+      return null;
+    }
+  }
+
   public function getWorkedInterval()
   {
     [$time1, $time2, $time3, $time4] = $this->getTimes();
@@ -77,29 +111,18 @@ class WorkingHours extends Model
     return $lunchInterval;
   }
 
-  public function getLeaveTime() {
-    [$time1, , , $time4] = $this->getTimes();
+  public function getLeaveTime()
+  {
+    [$time1,,, $time4] = $this->getTimes();
     $workday = DateInterval::createFromDateString('8 hours');
-    
-    if(!$time1) {
+
+    if (!$time1) {
       return (new DateTimeImmutable())->add($workday);
-    } elseif($time4) {
+    } elseif ($time4) {
       return $time4;
     } else {
       $leaveHour = sumInterval($workday, $this->getLunchInterval());
       return $time1->add($leaveHour);
     }
-  }
-
-  private function getTimes()
-  {
-    $times = [];
-
-    $this->time1 ? array_push($times, getDateFromString($this->time1)) : array_push($times, null);
-    $this->time2 ? array_push($times, getDateFromString($this->time2)) : array_push($times, null);
-    $this->time3 ? array_push($times, getDateFromString($this->time3)) : array_push($times, null);
-    $this->time4 ? array_push($times, getDateFromString($this->time4)) : array_push($times, null);
-
-    return $times;
   }
 }
