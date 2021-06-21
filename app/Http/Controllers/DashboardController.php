@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\WorkingHours;
+use DateInterval;
 
 class DashboardController extends Controller
 {
@@ -13,8 +14,8 @@ class DashboardController extends Controller
     if (Auth::check()) {
       $user = Auth::user();
 
-      $workingHours = WorkingHours::getWorkingHours($user->id);
-
+      $workingHours = WorkingHours::getCurrentWorkingHours($user->id);
+      
       return view('dashboard', compact('user', 'workingHours'));
     }
 

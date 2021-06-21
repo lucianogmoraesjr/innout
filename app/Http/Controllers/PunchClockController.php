@@ -12,7 +12,7 @@ class PunchClockController extends Controller
   {
     $user = Auth::user();
 
-    $workingHours = WorkingHours::getWorkingHours($user->id);
+    $workingHours = WorkingHours::getCurrentWorkingHours($user->id);
 
     if (!$workingHours->time1) {
       $timeColumn = 'time1';

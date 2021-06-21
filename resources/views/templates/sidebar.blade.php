@@ -28,12 +28,13 @@
     </ul>
   </nav>
 
+
   <div class="sidebar-widgets">
     <div class="sidebar-widget">
       <i class="icon icofont-hour-glass text-primary"></i>
       <div class="info">
         <span class="main text-primary">
-          04:23:00
+          {{ $workedInterval }}
         </span>
         <span class="label text-muted">Horas trabalhadas</span>
       </div>
@@ -43,7 +44,7 @@
       <i class="icon icofont-ui-alarm text-danger"></i>
       <div class="info">
         <span class="main text-danger">
-          18:00:00
+          {{ $leaveTime }}
         </span>
         <span class="label text-muted">Hora de Saída</span>
       </div>
