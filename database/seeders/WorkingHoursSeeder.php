@@ -12,7 +12,7 @@ class WorkingHoursSeeder extends Seeder
   public function getWorkedDayByOdds($regularRate, $extraRate, $lazyRate)
   {
     $regularDay = [
-      'time1' => NULL,
+      'time1' => '08:00:00',
       'time2' => '12:00:00',
       'time3' => '13:00:00',
       'time4' => '17:00:00',
@@ -21,7 +21,7 @@ class WorkingHoursSeeder extends Seeder
 
     $extraHourDay = [
       'time1' => '08:00:00',
-      'time2' => NULL,
+      'time2' => '12:00:00',
       'time3' => '13:00:00',
       'time4' => '18:00:00',
       'worked_time' => (60 * 60 * 8) + 3600,
@@ -30,7 +30,7 @@ class WorkingHoursSeeder extends Seeder
     $lazyDay = [
       'time1' => '08:30:00',
       'time2' => '12:00:00',
-      'time3' => NULL,
+      'time1' => '13:00:00',
       'time4' => '17:00:00',
       'worked_time' => (60 * 60 * 8) - 1800,
     ];

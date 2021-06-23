@@ -2,13 +2,13 @@
   <nav class="menu mt-3">
     <ul class="nav-list">
       <li class="nav-item">
-        <a href="#">
+        <a href="/dashboard">
           <i class="icofont-ui-check me-2"></i>
           Registrar ponto
         </a>
       </li>
       <li class="nav-item">
-        <a href="#">
+        <a href="/monthly-report">
           <i class="icofont-ui-calendar me-2"></i>
           Relatório Mensal
         </a>

@@ -26,10 +26,12 @@ class PunchClockController extends Controller
       $punch = [$timeColumn => $_POST['simulatePunch']];
     }
 
+    $workingHours->worked_time = getSecondsFromDateInterval($workingHours->getWorkedInterval());
+
     $columns = array_merge($workingHours->toArray(), $punch);
 
     if ($workingHours->id) {
-      WorkingHours::where('id', $workingHours->id)->update($columns);
+      $workingHours->update($columns);
 
       return redirect('/dashboard')->with('status', 'Ponto registrado com sucesso.');
     } else {

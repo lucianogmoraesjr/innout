@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataGenerator;
+use App\Http\Controllers\MonthlyReportController;
 use App\Http\Controllers\PunchClockController;
 
 /*
@@ -27,6 +28,7 @@ Route::get('/', function() {
 Route::get('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/dashboard', [DashboardController::class, 'dashboard']);
+Route::get('/monthly-report', MonthlyReportController::class);
 Route::get('/punch', [PunchClockController::class, 'punchClock']);
 Route::post('/punch', [PunchClockController::class, 'punchClock']);
 Route::post('/auth', [AuthController::class, 'auth']);

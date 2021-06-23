@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class WorkingHours extends Model
 {
@@ -34,7 +35,10 @@ class WorkingHours extends Model
 
   public static function getCurrentWorkingHours($userId)
   {
-    $workingHours = WorkingHours::where('user_id', $userId)->where('work_date', date('Y-m-d'))->get()->all();
+    $workingHours = WorkingHours::where('user_id', $userId)
+                                  ->where('work_date', date('Y-m-d'))
+                                  ->get()
+                                  ->all();
 
     foreach ($workingHours as $workingHour) {
       $workingHours = $workingHour;
@@ -49,6 +53,28 @@ class WorkingHours extends Model
     }
 
     return $workingHours;
+  }
+
+  public static function getMonthlyReport($userId, $date)
+  {
+    $initialDate = getFirstDayofMonth($date)->format('Y-m-d');
+    $endDate = getLastDayOfMonth($date)->format('Y-m-d');
+
+    $workingHours = DB::table('working_hours')
+                          ->where('user_id', $userId)
+                          ->whereBetween('work_date', [$initialDate, $endDate])
+                          ->get()
+                          ->all();
+
+    return $workingHours;
+  }
+
+  public function getBalance() {
+    if(!$this->time1 && !isPastWorkday($this->work_date)) return '';
+
+    $balance = $this->worked_time - (60 * 60 * 8);
+    $balanceString = getTimeStringFromSeconds(abs($balance));
+    return $balanceString;
   }
 
   private function getTimes()
