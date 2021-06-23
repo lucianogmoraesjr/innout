@@ -12,6 +12,25 @@
     </div>
 
     <div>
+      <form class="mb-4" action="#" method="GET">
+        <div class="input-group">
+          @if ($user->is_admin)
+            <select name="user" class="form-control me-2" placeholder="Selecione o usuário...">
+              @php
+                foreach ($users as $user) {
+                    $selected = $user->id == $selectedUser ? 'selected' : '';
+                    echo "<option value='{$user->id}' {$selected}>{$user->name}</option>";
+                }
+              @endphp
+            </select>
+          @endif
+          <input class="form-control" type="month" name="period" value={{$today == $selectedPeriod ? $today : $selectedPeriod}}>
+          <button class="btn btn-primary ms-2">
+            <i class="icofont-search"></i>
+          </button>
+        </div>
+      </form>
+
       <table class="table table-bordered table-striped table-hover">
         <thead>
           <th>Dia</th>
@@ -29,7 +48,7 @@
               <td>{{ $workingHour->time2 ?? '-' }}</td>
               <td>{{ $workingHour->time3 ?? '-' }}</td>
               <td>{{ $workingHour->time4 ?? '-' }}</td>
-              <td>{{ $workingHour->balance ?? '-'}}</td>
+              <td>{{ $workingHour->balance ?? '-' }}</td>
             </tr>
           @endforeach
           <tr class="bg-primary text-white">

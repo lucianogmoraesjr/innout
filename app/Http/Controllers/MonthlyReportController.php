@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\WorkingHours;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class MonthlyReportController extends Controller
@@ -23,12 +26,31 @@ class MonthlyReportController extends Controller
     }
 
     $user = Auth::user();
+    $users = null;
+    $selectedUser = $user->id;
 
     $currentDate = new DateTime();
 
+    if ($user->is_admin) {
+      $usersAll = DB::table('users')->get()->toArray();
+      foreach ($usersAll as $key => $value) {
+        $users[] = $value;
+      }
+
+      $selectedUser = isset($_GET['user']) ? $_GET['user'] : $user->id;
+    }
+
+    $selectedPeriod = isset($_GET['period']) ? $_GET['period'] : $currentDate->format('Y-m');
+
     $date = $currentDate->format('Y-m') . '-' . sprintf('%02d', 1);
 
-    $workingHours = WorkingHours::getMonthlyReport($user->id, $currentDate);
+    $today = $currentDate->format('Y-m');
+
+    $workingHours = WorkingHours::getMonthlyReport($selectedUser, $selectedPeriod);
+
+    if (!$workingHours) {
+      $workingHour = [];
+    }
 
     foreach ($workingHours as $key => $value) {
       $workingHour[$value->work_date] = $value;
@@ -37,10 +59,10 @@ class MonthlyReportController extends Controller
     $report = [];
     $workDay = 0;
     $sumWorkedTime = 0;
-    $lastDay = getLastDayOfMonth($currentDate)->format('d');
+    $lastDay = getLastDayOfMonth($selectedPeriod)->format('d');
 
     for ($day = 1; $day <= $lastDay; $day++) {
-      $date = $currentDate->format('Y-m') . '-' . sprintf('%02d', $day);
+      $date = $selectedPeriod . '-' . sprintf('%02d', $day);
 
       if (array_key_exists($date, $workingHour)) {
         $registry = $workingHour[$date];
@@ -50,9 +72,9 @@ class MonthlyReportController extends Controller
         if ($registry) {
           $sumWorkedTime += $registry->worked_time;
 
-          if(!$registry->time1 && !isPastWorkday($registry->work_date)) {
+          if (!$registry->time1 && !isPastWorkday($registry->work_date)) {
             $registry->balance = null;
-          } elseif($registry->worked_time == (60 * 60 * 8)) {
+          } elseif ($registry->worked_time == (60 * 60 * 8)) {
             $registry->balance = '-';
           } else {
             $balance = $registry->worked_time - (60 * 60 * 8);
@@ -68,7 +90,6 @@ class MonthlyReportController extends Controller
             'worked_time' => 0,
           ]));
         }
-
       } else {
         $registry = (object)['work_date' => $date, 'worked_time' => 0];
         array_push($report, $registry);
@@ -83,7 +104,12 @@ class MonthlyReportController extends Controller
     return view('monthly-report', compact([
       'report' => 'report',
       'sumWorkedTime' => 'sumWorkedTime',
-      'balance' => 'balanceFormated'
+      'balance' => 'balanceFormated',
+      'selectedPeriod' => 'selectedPeriod',
+      'users' => 'users',
+      'selectedUser' => 'selectedUser',
+      'user' => 'user',
+      'today' => 'today'
     ]));
   }
 }
