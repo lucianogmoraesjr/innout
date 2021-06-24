@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     );
 
     View::composer(
-      ['templates.header'],
+      ['templates.header', 'templates.sidebar'],
       UserComposer::class
     );
   }

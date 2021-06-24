@@ -31,6 +31,14 @@ class User extends Authenticatable
     'password'
   ];
 
+  protected $casts = [
+    'is_admin' => 'boolean'
+  ];
+
+  public static function getActiveUsersCount() {
+    return User::whereNull('end_date')->count();
+  }
+
   public function relWorkingHours() {
     return $this-> hasMany('App\Models\WorkingHours', 'id_user');
 }

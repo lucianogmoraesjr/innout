@@ -102,14 +102,14 @@ class MonthlyReportController extends Controller
     $balanceFormated = "{$sign}{$balance}";
 
     return view('monthly-report', compact([
-      'report' => 'report',
-      'sumWorkedTime' => 'sumWorkedTime',
-      'balance' => 'balanceFormated',
-      'selectedPeriod' => 'selectedPeriod',
-      'users' => 'users',
-      'selectedUser' => 'selectedUser',
-      'user' => 'user',
-      'today' => 'today'
+      'report',
+      'sumWorkedTime',
+      'balanceFormated',
+      'selectedPeriod',
+      'users',
+      'selectedUser',
+      'user',
+      'today'
     ]));
   }
 }

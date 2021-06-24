@@ -13,18 +13,21 @@
           Relatório Mensal
         </a>
       </li>
+
+      @if ($user->is_admin)
       <li class="nav-item">
-        <a href="#">
+        <a href="/manager-report">
           <i class="icofont-chart-histogram me-2"></i>
           Relatório Gerencial
         </a>
       </li>
       <li class="nav-item">
-        <a href="#">
+        <a href="/users">
           <i class="icofont-users me-2"></i>
           Usuários
         </a>
-      </li>
+      </li>          
+      @endif
     </ul>
   </nav>
 

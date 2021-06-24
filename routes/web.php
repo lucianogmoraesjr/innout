@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataGenerator;
+use App\Http\Controllers\ManagerReportController;
 use App\Http\Controllers\MonthlyReportController;
 use App\Http\Controllers\PunchClockController;
 
@@ -19,9 +20,7 @@ use App\Http\Controllers\PunchClockController;
 |
 */
 
-// Route::resource('/', UserController::class);
-
-Route::get('/', function() {
+Route::get('/', function () {
   return redirect('/dashboard');
 });
 
@@ -32,3 +31,9 @@ Route::get('/monthly-report', MonthlyReportController::class);
 Route::get('/punch', [PunchClockController::class, 'punchClock']);
 Route::post('/punch', [PunchClockController::class, 'punchClock']);
 Route::post('/auth', [AuthController::class, 'auth']);
+
+Route::middleware(['admin'])->group(function () {
+  Route::get('/manager-report', ManagerReportController::class);
+  Route::resource('/users', UserController::class);    
+});
+

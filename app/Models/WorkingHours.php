@@ -36,9 +36,9 @@ class WorkingHours extends Model
   public static function getCurrentWorkingHours($userId)
   {
     $workingHours = WorkingHours::where('user_id', $userId)
-                                  ->where('work_date', date('Y-m-d'))
-                                  ->get()
-                                  ->all();
+      ->where('work_date', date('Y-m-d'))
+      ->get()
+      ->all();
 
     foreach ($workingHours as $workingHour) {
       $workingHours = $workingHour;
@@ -55,22 +55,61 @@ class WorkingHours extends Model
     return $workingHours;
   }
 
+  public static function getAbsentUsers()
+  {
+    $today = (new DateTime())->format('Y-m-d');
+
+    $absentUsers = [];
+
+    $result = DB::table('users')
+      ->whereNull('end_date')
+      ->whereNotIn(
+        'id',
+        DB::table('working_hours')
+          ->where('work_date', $today)
+          ->whereNotNull('time1')
+          ->select('user_id')
+      )
+      ->select('name')
+      ->get()
+      ->all();
+
+    foreach ($result as $absentUser) {
+      $absentUsers[] = $absentUser->name;
+    }
+
+    return $absentUsers;
+  }
+
+  public static function getWorkedTimeInMonth($yearAndMonth)
+  {
+    $initialDate = (new DateTime("{$yearAndMonth}-1"))->format('Y-m-d');
+    $endDate = getLastDayOfMonth($yearAndMonth)->format('Y-m-d');
+
+    $workedTimeInMonth = DB::table('working_hours')
+      ->whereBetween('work_date', [$initialDate, $endDate])
+      ->sum('worked_time');
+
+    return ($workedTimeInMonth);
+  }
+
   public static function getMonthlyReport($userId, $date)
   {
     $initialDate = getFirstDayofMonth($date)->format('Y-m-d');
     $endDate = getLastDayOfMonth($date)->format('Y-m-d');
 
     $workingHours = DB::table('working_hours')
-                          ->where('user_id', $userId)
-                          ->whereBetween('work_date', [$initialDate, $endDate])
-                          ->get()
-                          ->all();
+      ->where('user_id', $userId)
+      ->whereBetween('work_date', [$initialDate, $endDate])
+      ->get()
+      ->all();
 
     return $workingHours;
   }
 
-  public function getBalance() {
-    if(!$this->time1 && !isPastWorkday($this->work_date)) return '';
+  public function getBalance()
+  {
+    if (!$this->time1 && !isPastWorkday($this->work_date)) return '';
 
     $balance = $this->worked_time - (60 * 60 * 8);
     $balanceString = getTimeStringFromSeconds(abs($balance));
