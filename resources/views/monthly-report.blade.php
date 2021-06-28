@@ -53,7 +53,7 @@
           @endforeach
           <tr class="bg-primary text-white">
             <td>Horas Trabalhadas</td>
-            <td colspan="3">{{ $sumWorkedTime }}</td>
+            <td colspan="3">{{ $workedTime }}</td>
             <td>Saldo Mensal</td>
             <td>{{ $balanceFormated }}</td>
           </tr>

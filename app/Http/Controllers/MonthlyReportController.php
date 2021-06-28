@@ -98,12 +98,13 @@ class MonthlyReportController extends Controller
 
     $expectedTime = $workDay * (60 * 60 * 8);
     $balance = getTimeStringFromSeconds(abs($sumWorkedTime - $expectedTime));
+    $workedTime = getTimeStringFromSeconds($sumWorkedTime);
     $sign = ($sumWorkedTime >= $expectedTime) ? '+' : '-';
     $balanceFormated = "{$sign}{$balance}";
 
     return view('monthly-report', compact([
       'report',
-      'sumWorkedTime',
+      'workedTime',
       'balanceFormated',
       'selectedPeriod',
       'users',
