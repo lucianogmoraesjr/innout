@@ -34,9 +34,9 @@
 
   <div class="sidebar-widgets">
     <div class="sidebar-widget">
-      <i class="icon icofont-hour-glass text-primary"></i>
+      <i class="icon icofont-hour-glass"></i>
       <div class="info">
-        <span class="main text-primary" {{ $activeClock === 'workedHours' ? 'active-clock' : '' }}>
+        <span class="main" {{ $activeClock === 'workedHours' ? 'active-clock' : '' }}>
           {{ $workedInterval }}
         </span>
         <span class="label text-muted">Horas trabalhadas</span>

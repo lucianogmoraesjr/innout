@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="card-footer d-flex justify-content-center">
-        <a href="/punch" class="btn btn-success btn-lg">
+        <a href="/punch" class="btn btn-lg">
           <i class="icofont-check me-1"></i>
           Registrar ponto
         </a>

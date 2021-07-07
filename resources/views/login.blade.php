@@ -16,11 +16,7 @@
     @csrf
     <div class="login-card card">
       <div class="card-header d-flex justify-content-center align-items-center">
-        <i class="icofont-travelling me-2"></i>
-        <span class="fw-light">In</span>
-        <span class="fw-bold mx-2">N'</span>
-        <span class="fw-light">Out</span>
-        <i class="icofont-runner-alt-1 ms-2"></i>
+        <img src="assets/punch-clock-dark.svg" alt="PunchClock">
       </div>
       <div class="card-body">
         @if ($errors->all())

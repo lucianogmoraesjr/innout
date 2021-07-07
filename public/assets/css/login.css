@@ -13,3 +13,7 @@ body {
 .card-header {
   font-size: 2rem;
 }
+
+.login-card img{
+  height: 2.5rem;
+}
