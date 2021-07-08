@@ -125,8 +125,9 @@
         type="checkbox" 
         id="is_admin" 
         name="is_admin" 
-        class="form-check-input" 
-        {{ isset($user->is_admin) ? 'checked' : '' }}>
+        class="form-check-input"
+        {{ (isset($user) && $user->is_admin === true) ? 'checked' : '' }}
+      >
       <label 
       for="is_admin" class="form-check-label ms-1">Administrador</label>
     </div>

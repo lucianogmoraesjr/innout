@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="{{ asset('site/bootstrap.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/icofont/icofont.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-  <title>In N' Out</title>
+  <title>PunchClock | Login</title>
 </head>
 
 <body>

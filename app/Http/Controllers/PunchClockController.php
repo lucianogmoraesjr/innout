@@ -22,10 +22,6 @@ class PunchClockController extends Controller
 
     $punch = [$timeColumn => strftime('%H:%M:%S', time())];
 
-    if (isset($_POST['simulatePunch'])) {
-      $punch = [$timeColumn => $_POST['simulatePunch']];
-    }
-
     $workingHours->worked_time = getSecondsFromDateInterval($workingHours->getWorkedInterval());
 
     $columns = array_merge($workingHours->toArray(), $punch);

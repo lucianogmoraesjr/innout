@@ -52,16 +52,6 @@
       </div>
     </div>
 
-    <form class="mt-5" action="/punch" method="post">
-      @csrf
-      <div class="input-group no-border">
-        <input name="simulatePunch" type="text" class="form-control" placeholder="Digite o horário para simular o batimento">
-        <button class="btn btn-danger ms-3">
-          Simular ponto
-        </button>
-      </div>
-    </form>
-
   </main>
 
 @endsection
